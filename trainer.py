@@ -147,7 +147,7 @@ def train():
   with strategy.scope():
     model_ = model_builder.build(model_config, True)
     lr_schedule = _create_learning_rate(train_config.learning_rate)
-    optimizer = tf.keras.optimizers.Adam(lr_schedule)
+    optimizer = tf.keras.optimizers.legacy.Adam(lr_schedule)
     model_.global_step = optimizer.iterations
     summaryfn = None
     if FLAGS.train_strategy == TRAIN_STRATEGY[1]:
@@ -170,7 +170,7 @@ def train():
           directory=FLAGS.model_dir,
           checkpoint_interval=1000,
           step_counter=trainer.optimizer.iterations,
-          max_to_keep=5),
+          max_to_keep=2),
       summary_dir=FLAGS.model_dir,
       summary_interval=10,
       global_step=trainer.optimizer.iterations)
